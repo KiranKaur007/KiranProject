@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://soartm.deere.com/v3_0/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soartm.deere.com/v3_0/">
+
+  <xs:complexType name="RequestMessage">
+    <xs:sequence>
+      <xs:element name="requestHeader" type="tns:RequestHeader" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RequestHeader">
+    <xs:complexContent>
+      <xs:extension base="tns:CommonHeader">
+        <xs:sequence>
+          <xs:element name="replyToDetails" type="tns:ReplyToDetails" nillable="true" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="CommonHeader">
+    <xs:sequence>
+      <xs:element name="headerVersion" type="xs:string" nillable="true"/>
+      <xs:element name="serviceFunctionalArea" type="xs:string" nillable="true"/>
+      <xs:element name="serviceInstance" type="xs:string" nillable="true"/>
+      <xs:element name="messageName" type="xs:string" nillable="true"/>
+      <xs:element name="messageVersion" type="xs:string" nillable="true"/>
+      <xs:element name="trackingID" type="xs:string" nillable="true"/>
+      <xs:element name="originationTimestamp" type="xs:dateTime" nillable="true"/>
+      <xs:element name="locale" type="xs:string" nillable="true"/>
+      <xs:element name="sourceProgram" type="xs:string" nillable="true"/>
+      <xs:element name="firstCallingProgram" type="xs:string" nillable="true"/>
+      <xs:element name="traceLogRequired" type="xs:string" nillable="true" minOccurs="0"/>
+      <xs:element name="credentials" type="tns:Credentials" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReplyToDetails">
+    <xs:sequence>
+      <xs:element name="programName" type="xs:string" nillable="true"/>
+      <xs:element name="serviceInstance" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Credentials">
+    <xs:sequence>
+      <xs:element name="endUserID" type="xs:string" nillable="true" minOccurs="0"/>
+      <xs:element name="authorization" type="tns:Authorization" nillable="true" minOccurs="0"/>
+      <xs:element name="chargeID" type="xs:string" nillable="true" minOccurs="0"/>
+      <xs:element name="applicationID" type="xs:string" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Authorization">
+    <xs:sequence>
+      <xs:element name="authorizationID" type="xs:string" nillable="true"/>
+      <xs:element name="authorizationContext" type="tns:AuthorizationContext" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AuthorizationContext">
+    <xs:sequence>
+      <xs:element name="contextType" type="xs:string" nillable="true"/>
+      <xs:element name="context" type="xs:string" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseHeader">
+    <xs:complexContent>
+      <xs:extension base="tns:CommonHeader">
+        <xs:sequence>
+          <xs:element name="overallReturnCondition" type="tns:ReturnCondition" nillable="true"/>
+          <xs:element name="secondaryReturnCondition" type="tns:ReturnCondition" nillable="true" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ReturnCondition">
+    <xs:sequence>
+      <xs:element name="returnCode" type="xs:string" nillable="true"/>
+      <xs:element name="tier2Condition" type="tns:Tier2Condition" nillable="true"/>
+      <xs:element name="backEndServiceDetails" type="tns:BackEndServiceDetails" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Tier2Condition">
+    <xs:sequence>
+      <xs:element name="returnStatus" type="xs:string" nillable="true"/>
+      <xs:element name="messageNumber" type="xs:int" nillable="true"/>
+      <xs:element name="namespace" type="xs:string" nillable="true"/>
+      <xs:element name="messageText" type="xs:string" nillable="true"/>
+      <xs:element name="requestLink" type="xs:string" nillable="true" minOccurs="0"/>
+      <xs:element name="responseLink" type="xs:string" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BackEndServiceDetails">
+    <xs:sequence>
+      <xs:element name="programName" type="xs:string" nillable="true"/>
+      <xs:element name="messageCode" type="xs:string" nillable="true" minOccurs="0"/>
+      <xs:element name="messageText" type="xs:string" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ResponseMessage">
+    <xs:sequence>
+      <xs:element name="responseHeader" type="tns:ResponseHeader" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
